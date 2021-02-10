@@ -1,0 +1,131 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: example-app-ci-pipeline
+  namespace: tekton-poc
+spec:
+  params:
+    - name: url
+      description: Git url
+    - name: url-gitops
+      description: Git url for gitops repository
+    - name: branch
+      description: Revision to use
+    - name: working-dir
+      description: Working dir
+    - name: sonar-url
+      description: SonarQube URL
+    - name: image-name
+      description: Image name
+    - name: deployments-dir
+      description: Folder containing K8s deployments
+    - name: deployment-file
+      description: Deployment file
+  workspaces:
+    - name: ws
+    - name: maven-settings
+  tasks:
+    - name: checkout
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.url)
+        - name: revision
+          value: $(params.branch)
+        - name: deleteExisting
+          value: 'true'
+      workspaces:
+        - name: output
+          workspace: ws
+    - name: build-and-test
+      taskRef:
+        name: maven
+      runAfter:
+        - checkout
+      params:
+        - name: MAVEN_IMAGE
+          value: 'maven:3-openjdk-11'
+        - name: CONTEXT_DIR
+          value: '$(params.working-dir)'
+        - name: GOALS
+          value: ['clean', 'verify']
+      workspaces:
+        - name: source
+          workspace: ws
+        - name: maven-settings
+          workspace: maven-settings
+    - name: code-analysis
+      taskRef:
+        name: maven
+      runAfter:
+        - build-and-test
+      params:
+        - name: MAVEN_IMAGE
+          value: 'maven:3-openjdk-11'
+        - name: CONTEXT_DIR
+          value: '$(params.working-dir)'
+        - name: GOALS
+          value: ['sonar:sonar', '-Dsonar.host.url=$(params.sonar-url)']
+      workspaces:
+        - name: source
+          workspace: ws
+        - name: maven-settings
+          workspace: maven-settings
+    - name: publish
+      taskRef:
+        name: maven
+      runAfter:
+        - code-analysis
+      params:
+        - name: MAVEN_IMAGE
+          value: 'maven:3-openjdk-11'
+        - name: CONTEXT_DIR
+          value: '$(params.working-dir)'
+        - name: GOALS
+          value: ['-DskipTests', 'clean', 'deploy']
+      workspaces:
+        - name: source
+          workspace: ws
+        - name: maven-settings
+          workspace: maven-settings
+    - name: prepare-image
+      taskRef:
+        name: prepare-image
+      runAfter:
+        - publish
+      params:
+        - name: working-dir
+          value: '$(params.working-dir)'
+      workspaces:
+        - name: source
+          workspace: ws
+    - name: build-image
+      taskRef:
+        name: buildah
+      runAfter:
+        - prepare-image
+      params:
+        - name: CONTEXT
+          value: '$(params.working-dir)'
+        - name: IMAGE
+          value: '$(params.image-name)'
+        - name: TLSVERIFY
+          value: 'false'
+      workspaces:
+        - name: source
+          workspace: ws
+    - name: deploy
+      taskRef:
+        name: deploy-with-argocd
+      runAfter:
+        - build-image
+      params:
+        - name: url-gitops
+          value: '$(params.url-gitops)'
+        - name: commit
+          value: '$(tasks.checkout.results.commit)'
+        - name: deployments-dir
+          value: '$(params.deployments-dir)'
+        - name: deployment-file
+          value: '$(params.deployment-file)'

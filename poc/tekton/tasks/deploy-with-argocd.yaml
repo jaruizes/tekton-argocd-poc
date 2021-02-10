@@ -1,0 +1,35 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: deploy-with-argocd
+  namespace: tekton-poc
+spec:
+  params:
+    - name: url-gitops
+    - name: deployments-dir
+      description: deployments-dir
+    - name: deployment-file
+      description: Deployment file
+    - name: commit
+      description: commit
+  steps:
+   - name: push-changes-gitops
+     image: alpine/git:v2.26.2
+     script: |
+        #!/bin/sh
+        set -e
+
+        git config --global user.email "jalb80@gmail.com"
+        git config --global user.name "jaruizes"
+
+        git clone -b master $(params.url-gitops) gitops
+        cd gitops/$(params.deployments-dir)
+
+        buildDate=$(date '+%Y%m%d%H%M%S')
+        sed -i "s#revision: \"[a-zA-Z0-9]\\+\"#revision: \"$(params.commit)\"#" $(params.deployment-file)
+        sed -i "s#buildDate: \"[0-9]\\+\"#buildDate: \"$buildDate\"#" $(params.deployment-file)
+        cat $(params.deployment-file)
+
+        git add -u
+        git commit -m "[tekton] updating deployment"
+        git push

@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: prepare-image
+  namespace: tekton-poc
+spec:
+  params:
+    - name: working-dir
+      description: working dir
+  workspaces:
+    - name: source
+  steps:
+   - name: image
+     image: gcr.io/cloud-builders/mvn
+     script: |
+        #!/bin/sh
+        cd $(workspaces.source.path)/$(params.working-dir)
+        mkdir target/dependency 
+        (cd target/dependency; jar -xf ../*.jar)
+        ls -la target/dependency

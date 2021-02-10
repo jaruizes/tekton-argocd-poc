@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: k3d-tekton-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/tekton/volumes"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared-workspace
+spec:
+  storageClassName: manual
+  volumeName: k3d-tekton-volume
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

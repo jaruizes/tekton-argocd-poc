@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: products-service
+  namespace: argocd
+spec:
+  destination:
+    name: in-cluster
+    namespace: 'default'
+    server: ''
+  source:
+    path: /resources/gitops-repo/services/products
+    repoURL: >-
+      https://github.com/jaruizes/tekton-argocd-poc
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false

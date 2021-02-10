@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus
+  namespace: tekton-poc
+spec:
+  selector:
+    app: nexus
+  ports:
+    - port: 9001
+      targetPort: 8081-tcp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus
+  namespace: tekton-poc
+spec:
+  selector:
+    matchLabels:
+      app: nexus
+  template:
+    metadata:
+      labels:
+        app: nexus
+    spec:
+      containers:
+        - name: nexus
+          image: docker.io/sonatype/nexus3
+          ports:
+            - containerPort: 8081
+              name: 8081-tcp
+          volumeMounts:
+            - name: nexus-data
+              mountPath: /nexus-data
+      volumes:
+        - name: nexus-data
+          emptyDir: {}
