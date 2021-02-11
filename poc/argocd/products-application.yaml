@@ -9,7 +9,7 @@ spec:
     namespace: 'default'
     server: ''
   source:
-    path: /resources/gitops-repo/services/products
+    path: "./resources/gitops-repo/services/products"
     repoURL: >-
       https://github.com/jaruizes/tekton-argocd-poc
     targetRevision: HEAD

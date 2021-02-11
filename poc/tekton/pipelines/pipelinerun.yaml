@@ -5,7 +5,7 @@ metadata:
   namespace: tekton-poc
 spec:
   pipelineRef:
-    name: example-app-ci-pipeline
+    name: example-ci-pipeline
   serviceAccountName: git-push-service-account
   params:
     - name: url
@@ -15,7 +15,7 @@ spec:
     - name: branch
       value: master
     - name: working-dir
-      value: '.'
+      value: './resources/sources-repo/services/products'
     - name: sonar-url
       value: 'http://sonarqube-service:9000'
     - name: image-name

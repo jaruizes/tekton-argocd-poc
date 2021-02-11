@@ -7,8 +7,8 @@ metadata:
   namespace: argocd
 type: Opaque
 stringData:
-  username: tekton
-  password: d20f10568f4e84495235df6b0625545426946c5b
+  username: ## INSERTAR TOKEN AQUÍ
+  password: ""
 ---
 apiVersion: v1
 kind: ConfigMap

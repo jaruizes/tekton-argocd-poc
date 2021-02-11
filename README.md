@@ -232,10 +232,3 @@ kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut
 
 
 
-## Puntos no explorados actualmente en la PoC
-
-- Desplegar en GKE
-- Triggers (por ejemplo, webhook Gitlab -> Tekton)
-
-
-

@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: example-app-ci-pipeline
+  name: example-ci-pipeline
   namespace: tekton-poc
 spec:
   params:
@@ -115,7 +115,7 @@ spec:
       workspaces:
         - name: source
           workspace: ws
-    - name: deploy
+    - name: push-changes-gitops
       taskRef:
         name: deploy-with-argocd
       runAfter:
