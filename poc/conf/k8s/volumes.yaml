@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: k3d-tekton-volume
+  name: conf-tekton-volume
   labels:
     type: local
 spec:
@@ -19,7 +19,7 @@ metadata:
   name: shared-workspace
 spec:
   storageClassName: manual
-  volumeName: k3d-tekton-volume
+  volumeName: conf-tekton-volume
   accessModes:
     - ReadWriteOnce
   resources:

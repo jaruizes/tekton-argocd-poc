@@ -1,4 +1,4 @@
 mirrors:
   "host.k3d.internal:5000":
     endpoint:
-      - http://host.k3d.internal:5000
+      - http://host.conf.internal:5000

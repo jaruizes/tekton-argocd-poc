@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: products
-          image: host.k3d.internal:5000/products:latest
+          image: host.conf.internal:5000/products:latest
           ports:
             - containerPort: 8080
               name: 8080-tcp
