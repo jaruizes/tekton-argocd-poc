@@ -117,7 +117,7 @@ spec:
           workspace: ws
     - name: push-changes-gitops
       taskRef:
-        name: push_to_gitops_repo
+        name: push-to-gitops-repo
       runAfter:
         - build-image
       params:

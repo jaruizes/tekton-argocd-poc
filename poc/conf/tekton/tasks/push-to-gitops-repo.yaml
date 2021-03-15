@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: push_to_gitops_repo
+  name: push-to-gitops-repo
   namespace: cicd
 spec:
   params:
