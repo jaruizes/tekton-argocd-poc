@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   name: products-ci-pipelinerun
-  namespace: tekton-poc
+  namespace: cicd
 spec:
   pipelineRef:
     name: example-ci-pipeline
@@ -19,7 +19,7 @@ spec:
     - name: sonar-url
       value: 'http://sonarqube-service:9000'
     - name: image-name
-      value: 'host.conf.internal:5000/products'
+      value: 'host.k3d.internal:5000/products'
     - name: deployments-dir
       value: '/resources/gitops-repo/services/products'
     - name: deployment-file

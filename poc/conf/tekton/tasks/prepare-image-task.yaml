@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: prepare-image
-  namespace: tekton-poc
+  namespace: cicd
 spec:
   params:
     - name: working-dir

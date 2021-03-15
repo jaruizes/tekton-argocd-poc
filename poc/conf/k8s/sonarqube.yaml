@@ -2,8 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sonarqube-service
-  namespace: tekton-poc
+  namespace: cicd
 spec:
+  type: LoadBalancer
   selector:
     app: sonarqube
   ports:
@@ -17,7 +18,7 @@ metadata:
   labels:
     app: sonarqube
   name: sonarqube
-  namespace: tekton-poc
+  namespace: cicd
 spec:
   replicas: 1
   selector:

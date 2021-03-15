@@ -124,7 +124,7 @@ Es necesario indicar un token de acceso al repositorio de gitlab para que la PoC
     annotations:
       managed-by: argocd.argoproj.io
     name: repo-gitops
-    namespace: argocd
+    namespace: cicd
   type: Opaque
   stringData:
     username: tekton
@@ -140,7 +140,7 @@ Es necesario indicar un token de acceso al repositorio de gitlab para que la PoC
   kind: Secret
   metadata:
     name: git-auth
-    namespace: tekton-poc
+    namespace: cicd
     annotations:
       tekton.dev/git-0: https://github.com
   type: kubernetes.io/basic-auth

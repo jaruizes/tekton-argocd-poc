@@ -4,17 +4,17 @@ metadata:
   annotations:
     managed-by: argocd.argoproj.io
   name: repo-gitops
-  namespace: argocd
+  namespace: cicd
 type: Opaque
 stringData:
-  username: ## INSERTAR TOKEN AQUÍ
+  username: "7c97050704cdd6d7272ea64a59f955e521e715fa"
   password: ""
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: argocd-cm
-  namespace: argocd
+  namespace: cicd
   labels:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd

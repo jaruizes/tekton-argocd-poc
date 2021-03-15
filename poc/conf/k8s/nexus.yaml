@@ -2,8 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nexus
-  namespace: tekton-poc
+  namespace: cicd
 spec:
+  type: LoadBalancer
   selector:
     app: nexus
   ports:
@@ -14,7 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nexus
-  namespace: tekton-poc
+  namespace: cicd
 spec:
   selector:
     matchLabels:
@@ -36,3 +37,4 @@ spec:
       volumes:
         - name: nexus-data
           emptyDir: {}
+

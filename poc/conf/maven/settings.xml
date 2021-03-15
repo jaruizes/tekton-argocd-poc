@@ -4,12 +4,12 @@
     <server>
       <id>snapshots</id>
       <username>admin</username>
-      <password>93041931-d2a7-46fa-86fd-23a80f691889</password>
+      <password>admin123</password>
     </server>
     <server>
       <id>releases</id>
       <username>admin</username>
-      <password>93041931-d2a7-46fa-86fd-23a80f691889</password>
+      <password>admin123</password>
     </server>
   </servers>
   <mirrors>

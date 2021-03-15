@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: example-ci-pipeline
-  namespace: tekton-poc
+  namespace: cicd
 spec:
   params:
     - name: url
