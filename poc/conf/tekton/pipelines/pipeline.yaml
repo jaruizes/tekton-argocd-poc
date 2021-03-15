@@ -117,7 +117,7 @@ spec:
           workspace: ws
     - name: push-changes-gitops
       taskRef:
-        name: deploy-with-argocd
+        name: push_to_gitops_repo
       runAfter:
         - build-image
       params:

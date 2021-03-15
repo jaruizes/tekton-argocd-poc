@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: deploy-with-argocd
+  name: push_to_gitops_repo
   namespace: cicd
 spec:
   params:
@@ -19,7 +19,7 @@ spec:
         #!/bin/sh
         set -e
 
-        git config --global user.email "jalb80@gmail.com"
+        git config --global user.email "youruser@email.com"
         git config --global user.name "jaruizes"
 
         git clone -b master $(params.url-gitops) gitops
