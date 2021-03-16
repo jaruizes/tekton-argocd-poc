@@ -4,11 +4,11 @@ metadata:
   annotations:
     managed-by: argocd.argoproj.io
   name: repo-gitops
-  namespace: cicd
+  namespace: argocd
 type: Opaque
 stringData:
-  username: "7c97050704cdd6d7272ea64a59f955e521e715fa"
-  password: ""
+  username: tekton
+  password: ## INSERT TOKEN HERE
 ---
 apiVersion: v1
 kind: ConfigMap

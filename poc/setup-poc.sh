@@ -20,10 +20,11 @@ echo "--------------------------------------------------------------------------
 
 initK8SResources() {
   kubectl create namespace cicd | true
+  kubectl create namespace argocd | true
   kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
   kubectl apply -f conf/k8s -n cicd
   kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
-  kubectl apply -n cicd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
   echo '-------------------------------------------------'
   echo 'Be patient while the pods are ready for you  '
@@ -108,7 +109,7 @@ installPoCResources() {
   kubectl apply -f conf/tekton/git-access -n cicd
   kubectl apply -f conf/tekton/tasks -n cicd
   kubectl apply -f conf/tekton/pipelines -n cicd
-  kubectl patch secret -n cicd argocd-secret -p '{"stringData": { "admin.password": "'$(htpasswd -bnBC 10 "" admin123 | tr -d ':\n')'"}}'
+  kubectl patch secret -n argocd argocd-secret -p '{"stringData": { "admin.password": "'$(htpasswd -bnBC 10 "" admin123 | tr -d ':\n')'"}}'
 }
 
 showInfo() {
@@ -128,7 +129,7 @@ showInfo() {
   echo "User/Password: admin/admin"
   echo "-----"
 
-  echo "Execute 'kubectl proxy --port=9080' to expose the Argo CD console "
+  echo "Execute 'kubectl port-forward svc/argocd-server -n argocd 9080:443' to expose the Argo CD console "
   echo "http://localhost:9080"
   echo "User/Password: admin/admin123"
   echo ""
